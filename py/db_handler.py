@@ -55,12 +55,20 @@ class db_handler:
 
         cursor.execute("""SELECT * FROM %s WHERE id=%%s;""" % self.table_to_text(table_type), [id])
         return cursor.fetchone()
+        
 #No Thread safety here! Do not pass cursor to another thread! 
     def get_all_rows(self, table_type):
         cursor = self.__connection.cursor()
 
         cursor.execute("""SELECT * FROM %s;""" % self.table_to_text(table_type))
-        return cursor 
+        return cursor
+
+#No Thread safety here! Do not pass cursor to another thread! 
+    def exec_custom_request(self, request):
+        cursor = self.__connection.cursor()
+
+        cursor.execute(request)
+        return cursor
 
     def get_log(self):
         return list(self.__log)
