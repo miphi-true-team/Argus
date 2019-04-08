@@ -28,26 +28,11 @@ class db_handler:
             raise Exception("Unsupported table type")
 
     def insert_row(self, table_type, values):
-        cursor = self.__connection.cursor()
+        self.__insert_row(table_type, values)
 
-        if table_type == db_tables.groups:
-            cursor.execute("""INSERT INTO %s (name) VALUES (%#s);""" 
-            % self.table_to_text(db_tables.groups), [values[0]])
-        elif table_type == db_tables.students:
-            cursor.execute("""INSERT INTO %s (sn, fn, pt, group_id) VALUES (%%s, %%s, %%s, %%s);"""
-            % self.table_to_text(db_tables.students), (values[0], values[1], values[2], values[3]))
-        elif table_type == db_tables.cabinets:
-            cursor.execute("""INSERT INTO %s (name, camera_address) VALUES (%%s, %%s);""" 
-            % self.table_to_text(db_tables.cabinets), (values[0], values[1]))
-        elif table_type == db_tables.faces_journal:
-            cursor.execute("""INSERT INTO %s (student_id, encoding, picture_link) VALUES (%%s,%%s,%%s);""" 
-            % self.table_to_text(db_tables.faces_journal), (values[0], values[1], values[2]))
-        elif table_type == db_tables.mephi_journal:
-            cursor.execute("""INSERT INTO %s (cabinet_id, student_id, date, para_num) VALUES (%%s,%%s,%%s,%%s);"""
-            % self.table_to_text(db_tables.mephi_journal), (values[0],values[1],values[2], values[3]))
-        else:
-            raise Exception("Unsupported table type")
-
+    def insert_rows(self, table_type, insertion_values_list):
+        for ins_val in insertion_values_list:
+            self.__insert_row(table_type, ins_val, False)
         self.__connection.commit()
 
     def get_row_by_id(self, table_type, id):
@@ -55,7 +40,7 @@ class db_handler:
 
         cursor.execute("""SELECT * FROM %s WHERE id=%%s;""" % self.table_to_text(table_type), [id])
         return cursor.fetchone()
-        
+
 #No Thread safety here! Do not pass cursor to another thread! 
     def get_all_rows(self, table_type):
         cursor = self.__connection.cursor()
@@ -82,6 +67,30 @@ class db_handler:
         if self.__connection is not None:
               self.__connection.close()
 # Private class interface 
+    def __insert_row(self, table_type, values, do_commit = True):
+        cursor = self.__connection.cursor()
+
+        if table_type == db_tables.groups:
+            cursor.execute("""INSERT INTO %s (name) VALUES (%#s);""" 
+            % self.table_to_text(db_tables.groups), [values[0]])
+        elif table_type == db_tables.students:
+            cursor.execute("""INSERT INTO %s (sn, fn, pt, group_id) VALUES (%%s, %%s, %%s, %%s);"""
+            % self.table_to_text(db_tables.students), (values[0], values[1], values[2], values[3]))
+        elif table_type == db_tables.cabinets:
+            cursor.execute("""INSERT INTO %s (name, camera_address) VALUES (%%s, %%s);""" 
+            % self.table_to_text(db_tables.cabinets), (values[0], values[1]))
+        elif table_type == db_tables.faces_journal:
+            cursor.execute("""INSERT INTO %s (student_id, encoding, picture_link) VALUES (%%s,%%s,%%s);""" 
+            % self.table_to_text(db_tables.faces_journal), (values[0], values[1], values[2]))
+        elif table_type == db_tables.mephi_journal:
+            cursor.execute("""INSERT INTO %s (cabinet_id, student_id, date, para_num) VALUES (%%s,%%s,%%s,%%s);"""
+            % self.table_to_text(db_tables.mephi_journal), (values[0],values[1],values[2], values[3]))
+        else:
+            raise Exception("Unsupported table type")
+
+        if do_commit:
+            self.__connection.commit()
+
     def __add_log_event(self, msg):
         self.__log.append(msg)
 
