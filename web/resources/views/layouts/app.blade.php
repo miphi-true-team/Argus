@@ -21,8 +21,8 @@
             <div class="header item">{{ config('app.name') }}</div>
             <div class="right menu">
                 @guest
-                    <a href="{{ route('login') }}" class="item">{{ __('Login') }}</a>
-                    @if (Route::has('register'))
+                    <a href="{{ route('login') }}" class="item">{{ __('Login') }}</a> 
+			@if (Route::has('register'))
                         <a href="{{ route('register') }}" class="item">{{ __('Register') }}</a>
                     @endif
                 @else
@@ -45,7 +45,7 @@
         </div>
         <div class="ui stackable center aligned internally grid">
             @yield('content')
-            </div>
+        </div>
 
         <script>
         
