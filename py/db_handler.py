@@ -1,5 +1,5 @@
 
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 import psycopg2
 from enum import Enum
 
@@ -71,7 +71,7 @@ class db_handler:
         cursor = self.__connection.cursor()
 
         if table_type == db_tables.groups:
-            cursor.execute("""INSERT INTO %s (name) VALUES (%#s);""" 
+            cursor.execute("""INSERT INTO %s (name) VALUES (%%s);""" 
             % self.table_to_text(db_tables.groups), [values[0]])
         elif table_type == db_tables.students:
             cursor.execute("""INSERT INTO %s (sn, fn, pt, group_id) VALUES (%%s, %%s, %%s, %%s);"""
@@ -124,6 +124,7 @@ class db_handler:
     
             # connect to the PostgreSQL server
             self.__add_log_event('Connecting to the PostgreSQL database...')
+
             self.__connection = psycopg2.connect(**params)
     
             # create a cursor
@@ -137,7 +138,7 @@ class db_handler:
             self.__add_log_event(db_version)
 
         except (Exception, psycopg2.DatabaseError) as error:
-            self.__add_log_event("Create connection error " + error)
+            self.__add_log_event(error)
             if self.__connection is not None:
                 self.__connection.close()
                 self.__add_log_event('Database connection closed.')
