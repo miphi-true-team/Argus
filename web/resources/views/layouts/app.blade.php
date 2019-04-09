@@ -18,11 +18,11 @@
     </head>
     <body>
         <div class="ui menu">
-            <div class="header item">{{ config('app.name') }}</div>
+            <a class="header item" href="{{ route('index') }}">Главная</a>
             <div class="right menu">
                 @guest
                     <a href="{{ route('login') }}" class="item">{{ __('Login') }}</a> 
-			@if (Route::has('register'))
+			        @if (Route::has('register'))
                         <a href="{{ route('register') }}" class="item">{{ __('Register') }}</a>
                     @endif
                 @else
@@ -30,10 +30,11 @@
                         {{ Auth::user()->name }}
                         <i class="dropdown icon"></i>
                         <div class="menu">
-                                <a class="item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                            <a href="{{ route('home') }}" class="item">Профиль</a>
+                            <a class="item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
@@ -43,8 +44,13 @@
                 @endguest
             </div>
         </div>
-        <div class="ui stackable center aligned internally grid">
+        <div class="ui stackable center aligned grid">
             @yield('content')
+        </div>
+        <div class="ui bottom fixed secondary menu">
+            <div class="right menu">
+                <a class="item">Все права защищены © 2019 | MTT (MIPHI True Team) </a>
+            </div>
         </div>
 
         <script>
