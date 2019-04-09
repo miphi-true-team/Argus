@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'login' => 'Login',
-    'registration' => 'Registration',
+    'failed' => 'Пользователь не найден',
+    'throttle' => 'Слишком много попыток входа. Попробуйте через :seconds секунд.',
+    'login' => 'Вход',
+    'registration' => 'Регистрация',
 
 ];
