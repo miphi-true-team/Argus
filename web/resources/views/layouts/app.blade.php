@@ -22,6 +22,7 @@
         <div class="ui menu">
             <a class="header item" href="{{ route('index') }}">Главная</a>
             @auth
+                <a class="item" href="{{ route('groups') }}">Группы</a>
                 <a class="item" href="{{ route('cabinets') }}">Аудитории</a>
             @endauth
             <div class="right menu">

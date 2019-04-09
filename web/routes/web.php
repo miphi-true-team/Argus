@@ -15,3 +15,4 @@ Auth::routes();
 Route::get('/', 'MainController@index')->name('index');
 Route::get('/home', 'HomeController@home')->name('home');
 Route::get('/cabinets', 'HomeController@cabinets')->name('cabinets');
+Route::get('/groups', 'HomeController@groups')->name('groups');

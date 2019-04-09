@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CabinetsModel;
+use App\Models\GroupsModel;
 
 class HomeController extends Controller
 {
@@ -24,15 +25,20 @@ class HomeController extends Controller
      */
     public function home()
     {
-        return view('home', [
-            'cabinets' => CabinetsModel::get()
-        ]);
+        return view('home');
     }
 
     public function cabinets()
     {
         return view('employee/cabinets', [
             'cabinets' => CabinetsModel::get()
+        ]);
+    }
+
+    public function groups()
+    {
+        return view('employee/groups', [
+            'groups' => GroupsModel::get()
         ]);
     }
 
