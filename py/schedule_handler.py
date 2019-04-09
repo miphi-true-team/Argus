@@ -14,7 +14,9 @@ date_list = [
 
 
 # Структура записи пары:
-# Временной интервал 8:30 - 10:05 (Необходимо только для запросов)
+# День недели (Скорее всего должен быть запрос к БД, получить расписание на сегодня)
+# Бит чётности :)
+# Номер пары  //Временной интервал 8:30 - 10:05 (Необходимо только для запросов)
 # Номер группы
 # Кабинет
 # Название предмета (Игнорируется)
@@ -23,8 +25,11 @@ date_list = [
 
 class ScheduleRecord:
     def __init__(self):
+        self.lesson_num = 0
         self.group_number = 0
         self.cab_number = 0
+        self.teacher_fam = ""
+        self.dis_name = ""
 
 
 class ScheduleHandler:
@@ -45,9 +50,12 @@ class ScheduleHandler:
 
     # Public methods
     def get_group_by_cabinet(self, cabinet_num):
-        return 0
+        for itt in range(0, len(self.current_schedule)):
+            if cabinet_num == self.current_schedule[itt].cab_number:
+                return self.current_schedule[itt].group_number
+        return -1
 
-    def date_to_current_lesson_num(self):
+    def time_to_current_lesson_num(self):
         for itt in range(0, len(date_list)):
             if date_list[itt][0] <= self.current_datetime.time() <= date_list[itt][1]:
                 return itt + 1
@@ -57,25 +65,27 @@ class ScheduleHandler:
 
     # Private methods
     def __get_actual_schedule(self):
+        schedule_tmp = self.db.get_all_rows(db_tables.mephi_schedule).fetchall()
         return 0
-
-    def __get_current_time(self):
-        return datetime.datetime.now()
-
+        # Сформировать список актуальных занятий (Сегодня и сейчас)
 
 # using example
 # sorry
 
+
 cur_time = datetime.time(14, 49)
-#my_super_object = ScheduleHandler('', cur_time)
 test_object = ScheduleHandler('')
-print(test_object.date_to_current_lesson_num())
+print(test_object.time_to_current_lesson_num())
 
 for i in range(0, len(date_list)):
     print(str.format("{0} - {1} Пара №{2}", date_list[i][0].__str__(), date_list[i][1].__str__(), i + 1))
     if date_list[i][0] <= cur_time <= date_list[i][1]:
         print("Актуальная")
 
+# Вероятнее всего стоит не возвращать -1 если перемена, а возвращать номер либо предыдущей, либо следующей пары!
+
 # TODO
-# 1. Something good
-# 2. Die
+# 1. Запросить у БД расписание на сегодня
+# 2. Закинуть в список (Может словарь), получив номер пары, записи группа <-> кабинет
+# 3. Затестить всё это
+# 4. Немного выпить. (Уже сделано)
