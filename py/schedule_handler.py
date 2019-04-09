@@ -8,13 +8,13 @@ date_list = [
     [datetime.time(11, 55), datetime.time(13, 30)]
 ]
 
-class shadule_handler:
+class schedule_handler:
 
     #Constructor
     def __init__(self, db_hand):
         self.current_datetime = datetime.datetime.now()
         self.db = db_hand
-        self.current_shedule = list()
+        self.current_schedule = list()
 
     #Public methods
     def get_group_by_cabinet(self, cabinet_num):

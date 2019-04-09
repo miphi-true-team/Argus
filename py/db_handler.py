@@ -9,7 +9,7 @@ class db_tables(Enum):
     cabinets = 3
     faces_journal = 4
     mephi_journal = 5
-    #mephi_shedule = 6
+    #mephi_schedule = 6
 
 class db_handler:
 # Public class interface 
@@ -25,8 +25,8 @@ class db_handler:
             return 'faces_journal'
         elif table_type == db_tables.mephi_journal:
             return 'mephi_journal'
-        #elif table_type == db_tables.mephi_shedule:
-        #   return 'mephi_shadule'
+        #elif table_type == db_tables.mephi_schedule:
+        #   return 'mephi_schedule'
         else:
             raise Exception("Unsupported table type")
 
