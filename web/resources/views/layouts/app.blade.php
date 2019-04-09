@@ -30,10 +30,11 @@
                         {{ Auth::user()->name }}
                         <i class="dropdown icon"></i>
                         <div class="menu">
-                                <a class="item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                            <a href="{{ route('home') }}" class="item">Профиль</a>
+                            <a class="item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
