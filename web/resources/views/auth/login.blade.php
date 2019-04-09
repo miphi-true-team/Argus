@@ -10,7 +10,7 @@
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="inbox icon"></i>
-                        <input id="email" type="email" placeholder="E-mail" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}"  autofocus>
+                        <input id="email" type="email" placeholder="E-mail" name="email" value="{{ old('email') }}" required autofocus>
                     </div>
                 </div>
                 @if ($errors->has('password'))
@@ -24,7 +24,7 @@
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="lock icon"></i>
-                        <input id="password" type="password" placeholder="Password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" >
+                        <input id="password" type="password" placeholder="Пароль" name="password" required>
                     </div>
                 </div>
                 @if ($errors->has('password'))

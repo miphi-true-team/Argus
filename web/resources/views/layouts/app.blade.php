@@ -9,16 +9,21 @@
 
         <title>{{ config('app.name') }} | Главная</title>
 
+        <link href="{{ asset('css/index.css') }}" rel="stylesheet">
+
         <!-- jQuery -->
         <script src="{{ asset('js/jquery.js') }}" ></script>
 
         <!-- Semantic UI -->
         <link href="{{ asset('css/semantic/semantic.css') }}" rel="stylesheet">
-        <script src="{{ asset('css/semantic/semantic.js') }}" ></script>
+        <script src="{{ asset('css/semantic/semantic.js') }}"></script>
     </head>
     <body>
         <div class="ui menu">
             <a class="header item" href="{{ route('index') }}">Главная</a>
+            @auth
+                <a class="item" href="{{ route('cabinets') }}">Аудитории</a>
+            @endauth
             <div class="right menu">
                 @guest
                     <a href="{{ route('login') }}" class="item">@lang('auth.login')</a> 

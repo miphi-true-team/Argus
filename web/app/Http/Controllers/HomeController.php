@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\CabinetsModel;
 
 class HomeController extends Controller
 {
@@ -23,7 +24,16 @@ class HomeController extends Controller
      */
     public function home()
     {
-        return view('home');
+        return view('home', [
+            'cabinets' => CabinetsModel::get()
+        ]);
+    }
+
+    public function cabinets()
+    {
+        return view('employee/cabinets', [
+            'cabinets' => CabinetsModel::get()
+        ]);
     }
 
 }
