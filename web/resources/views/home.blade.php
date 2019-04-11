@@ -35,7 +35,6 @@
                 <div class="eight wide column">
                     <fieldset class="ui segment">
                         <legend>Статистка посещаемости</legend>
-                        @php $count_students = rand(1, 10000) @endphp
                         @php $count_admission_students = rand(1, $count_students) @endphp
                         <div class="ui three statistics">
                             <div class="statistic">
@@ -48,7 +47,7 @@
                             </div>
                             <div class="statistic">
                                 <div class="value">
-                                    {{ number_format(($count_admission_students * 100) / $count_students, 2) }}%
+                                    {{ number_format(($count_admission_students * 100) / $count_students, 0) }}%
                                 </div>
                                 <div class="label">
                                     Процент посещаемости

@@ -27,7 +27,8 @@ class HomeController extends Controller
     public function home()
     {
         return view('home', [
-            'cabinets' => CabinetsModel::get()
+            'cabinets' => CabinetsModel::get(),
+            'count_students' => StudentsModel::get()->count(),
         ]);
     }
 
