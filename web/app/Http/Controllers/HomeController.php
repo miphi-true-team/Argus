@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CabinetsModel;
 use App\Models\GroupsModel;
+use App\Models\StudentsModel;
 
 class HomeController extends Controller
 {

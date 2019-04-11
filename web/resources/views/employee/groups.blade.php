@@ -8,21 +8,17 @@
                 @foreach ($groups as $group)
                     <div class="ui fluid segment">
                         <h1>{{ $group->name }}</h1>
+                        @foreach ($group->getStudents() as $student)
                         <fieldset class="ui segment">
-                            <legend class="black-text">Список студентов</legend>
-                            <div class="ui items">
-                                @for ($i = 0; $i < 10; $i++)
-                                    <div class="item">
-                                        <div class="image">
-                                            <img src="https://semantic-ui.com/images/wireframe/image.png">
-                                        </div>
-                                        <div class="content">
-                                            <a class="header">ФИО</a>
-                                        </div>
-                                    </div>
-                                @endfor
-                            </div>
+                            <legend class="black-text">{{ $student->sn." ".$student->fn." ".$student->pt }}</legend>
+                                <div class="ui small image">
+                                    <img src="https://semantic-ui.com/images/wireframe/image.png">
+                                </div>
+                                <div class="content">
+                                    <a class="header"></a>
+                                </div>
                         </fieldset>
+                        @endforeach
                     </div>
                 @endforeach
             </div>
