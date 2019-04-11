@@ -15,6 +15,11 @@ class GroupsModel extends Model
         'name'
 	];
 
+	public function getCountStudents()
+	{
+		return StudentsModel::where('group_id', $this->id)->get()->count();
+	}
+
 	public function getStudents()
 	{
 		return StudentsModel::where('group_id', $this->id)->orderBy('sn', 'asc')->get();
