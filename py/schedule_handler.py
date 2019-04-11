@@ -2,6 +2,7 @@ import datetime
 from db_handler import db_tables
 from db_handler import db_handler
 
+#
 date_list = [
     [datetime.time(8, 30), datetime.time(10, 5)],
     [datetime.time(10, 15), datetime.time(11, 50)],
@@ -13,14 +14,14 @@ date_list = [
 ]
 
 
-# Структура записи пары:
-# День недели (Скорее всего должен быть запрос к БД, получить расписание на сегодня)
-# Бит чётности :)
-# Номер пары  //Временной интервал 8:30 - 10:05 (Необходимо только для запросов)
-# Номер группы
-# Кабинет
-# Название предмета (Игнорируется)
-# Имя преподавателя (Игнорируется)
+# Structure of lesson in Schedule:
+# Day of week (we can make request by today, in future)
+# Parity bit :)
+# Lesson num  // for requests
+# Group num
+# Cab
+# Lesson name (Ignore)
+# Teacher Fam (Ignore)
 
 
 class ScheduleRecord:
@@ -67,7 +68,7 @@ class ScheduleHandler:
     def __get_actual_schedule(self):
         schedule_tmp = self.db.get_all_rows(db_tables.mephi_schedule).fetchall()
         return 0
-        # Сформировать список актуальных занятий (Сегодня и сейчас)
+        # Form actual lessons
 
 # using example
 # sorry
@@ -82,10 +83,10 @@ for i in range(0, len(date_list)):
     if date_list[i][0] <= cur_time <= date_list[i][1]:
         print("Актуальная")
 
-# Вероятнее всего стоит не возвращать -1 если перемена, а возвращать номер либо предыдущей, либо следующей пары!
+# -1 - not in list or return 2007 year
 
 # TODO
-# 1. Запросить у БД расписание на сегодня
-# 2. Закинуть в список (Может словарь), получив номер пары, записи группа <-> кабинет
-# 3. Затестить всё это
-# 4. Немного выпить. (Уже сделано)
+# 1. DB request
+# 2. Form list (or Dict), by lesson num, elements: group <-> cabinet
+# 3. Test it
+# 4. Drink Blazzer. (Done)
