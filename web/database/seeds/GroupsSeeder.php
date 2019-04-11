@@ -11,7 +11,7 @@ class GroupsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table()->insert([
+        DB::table("Groups")->insert([
             [
                 'name' => 'ИКБО-07-18'
             ],
