@@ -53,7 +53,7 @@
                 @endguest
             </div>
         </div>
-        <div class="ui stackable centered aligned grid">
+        <div class="ui stackable internally centered aligned grid">
             @yield('content')
         </div>
         <div class="ui bottom fixed secondary menu">

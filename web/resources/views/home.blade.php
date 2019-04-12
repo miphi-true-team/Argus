@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="fifteen wide column">
-        <div class="ui grid">
+        <div class="ui stackable grid">
             <div class="row">
                 <div class="eight wide column">
                     <fieldset class="ui segment">
