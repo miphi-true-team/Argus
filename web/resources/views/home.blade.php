@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
+
+
 @section('content')
+
+
+
 <div class="row">
     <div class="fifteen wide column">
         <div class="ui grid">
@@ -38,6 +43,7 @@
                 <div class="eight wide column">
                     <fieldset class="ui segment">
                         <legend>Статистка посещаемости</legend>
+                        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
                         @php $count_admission_students = rand(1, $count_students) @endphp
                         <div class="ui three statistics">
                             <div class="statistic">
@@ -50,18 +56,18 @@
                             </div>
                             <div class="statistic">
                                 <div class="value">
-                                    {{ number_format(($count_admission_students * 100) / $count_students, 0) }}%
+                                    {{ $count_admission_students }}
                                 </div>
                                 <div class="label">
-                                    Процент посещаемости
+                                    Пришло студентов
                                 </div>
                             </div>
                             <div class="statistic">
                                 <div class="value">
-                                    {{ $count_admission_students }}
+                                    {{ $count_students-$count_admission_students }}
                                 </div>
                                 <div class="label">
-                                    Пришедших студентов
+                                    Не пришло студентов
                                 </div>
                             </div>
                         </div>
@@ -100,78 +106,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- <tr>
-                        <td rowspan="4">ПН</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Английский
-                        </td>
-                        <td>
-                            А-101
-                        </td>
-                        <td>
-                            Пупс
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Английский
-                        </td>
-                        <td>
-                            А-102
-                        </td>
-                        <td>
-                            Кукс
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Алгебра
-                        </td>
-                        <td>
-                            А-103
-                        </td>
-                        <td>
-                            Такс
-                        </td>
-                    </tr>
-                    <tr>
-                        <td rowspan="4">ВТ</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Английский
-                        </td>
-                        <td>
-                            А-101
-                        </td>
-                        <td>
-                            Пупс
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Английский
-                        </td>
-                        <td>
-                            А-102
-                        </td>
-                        <td>
-                            Кукс
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Алгебра
-                        </td>
-                        <td>
-                            А-103
-                        </td>
-                        <td>
-                            Такс
-                        </td>
-                    </tr> -->
                 </tbody>
             </table>
         </fieldset>
@@ -180,32 +114,34 @@
 
 <script>
 
-    function getDayCaption(day)
-    {
-        switch (day)
-        {
-            case 1:
-                return "ПН";
-            break;
-            case 2:
-                return "ВТ";
-            break;
-            case 3:
-                return "СР";
-            break;
-            case 4:
-                return "ЧТ";
-            break;
-            case 5:
-                return "ПТ";
-            break;
-            case 6:
-                return "СБ";
-            break;
-            case 7:
-                return "ВС";
-            break;
-        }
+        
+    window.onload = function () {
+
+        var options = {
+            title: {
+                text: "Процент посещаемости"
+            },
+            subtitles: [{
+                text: "{{ date('d.m.Y') }}"
+            }],
+            animationEnabled: true,
+            data: [{
+                type: "pie",
+                startAngle: 40,
+                toolTipContent: "<b>{label}</b>: {y}%",
+                showInLegend: "true",
+                legendText: "{label}",
+                indexLabelFontSize: 16,
+                indexLabel: "{label} - {y}%",
+                dataPoints: [
+                    { y: {{ 100-number_format(($count_admission_students * 100) / $count_students, 0) }}, label: "Непришло" },
+                    { y: {{ number_format(($count_admission_students * 100) / $count_students, 0) }}, label: "Пришло" }
+                ]
+            }]
+        };
+
+        $("#chartContainer").CanvasJSChart(options);
+
     }
 
     $('#showSchedule').on('click', function () {
@@ -227,5 +163,4 @@
     });
 
 </script>
-
 @endsection

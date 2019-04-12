@@ -13,6 +13,8 @@
 
         <!-- jQuery -->
         <script src="{{ asset('js/jquery.js') }}" ></script>
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
         <!-- Semantic UI -->
         <link href="{{ asset('css/semantic/semantic.css') }}" rel="stylesheet">
