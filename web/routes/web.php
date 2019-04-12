@@ -16,3 +16,6 @@ Route::get('/', 'MainController@index')->name('index');
 Route::get('/home', 'HomeController@home')->name('home');
 Route::get('/cabinets', 'HomeController@cabinets')->name('cabinets');
 Route::get('/groups', 'HomeController@groups')->name('groups');
+
+Route::get('schedule/schedule_by_group/{id}', 'CRUD\ScheduleController@getSchedule')->name('scheduleByGroup');
+Route::resource('/schedule', 'CRUD\ScheduleController');

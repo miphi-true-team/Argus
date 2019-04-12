@@ -26,25 +26,29 @@
         </table>
     </div>
 </div>
-<div class="row">
+<div class="stckable row">
     <div class="fifteen wide column">
         @if (count($groups) > 0)
-            <div class="ui horizontal segments" style="flex-wrap: wrap;">
+            <div class="ui horizontal stacked segments" style="flex-wrap: wrap;">
                 @foreach ($groups as $group)
-                    @if ($group->getStudents()->count() > 0)   
-                        <div class="ui fluid segments">
-                            <h1>{{ $group->name }}</h1>
-                            @foreach ($group->getStudents() as $student)
-                                <fieldset class="ui segment">
-                                    <legend class="black-text">{{ $student->sn." ".$student->fn." ".$student->pt }}</legend>
-                                        <div class="ui small image">
-                                            <img src="https://semantic-ui.com/images/wireframe/image.png">
-                                        </div>
-                                        <div class="content">
-                                            <a class="header"></a>
-                                        </div>
-                                </fieldset>
-                            @endforeach
+                    @if ($group->getStudents()->count() > 0)
+                        <div class="ui segment">
+                            <div class="ui styled accordion" style="width: 100%;">
+                                <div class="title">{{ $group->name }}</div>
+                                <div class="content">
+                                    @foreach ($group->getStudents() as $student)
+                                        <fieldset class="ui segment">
+                                            <legend class="black-text">{{ $student->sn." ".$student->fn." ".$student->pt }}</legend>
+                                                <div class="ui small image">
+                                                    <img src="https://semantic-ui.com/images/wireframe/image.png">
+                                                </div>
+                                                <div class="content">
+                                                    <a class="header"></a>
+                                                </div>
+                                        </fieldset>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     @endif
                 @endforeach

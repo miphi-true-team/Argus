@@ -6,31 +6,34 @@
         <div class="ui grid">
             <div class="row">
                 <div class="eight wide column">
-                    <table class="ui table">
-                        <thead>
-                            <tr>
-                                <th>Аудитория</th>
-                                <th>Камера</th>
-                                <th>Активна</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($cabinets as $cabinet)
+                    <fieldset class="ui segment">
+                        <legend>Состояние камер</legend>
+                        <table class="ui table">
+                            <thead>
                                 <tr>
-                                    <td>{{ $cabinet->name }}</td>
-                                    <td>{{ $cabinet->camera_address }}</td>
-                                    <td>
-
-                                        @if ( rand(0, 1) )
-                                            <i class="smile green large icon"></i>
-                                        @else
-                                            <i class="frown red large icon"></i>
-                                        @endif
-                                    </td>
+                                    <th>Аудитория</th>
+                                    <th>Камера</th>
+                                    <th>Активна</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($cabinets as $cabinet)
+                                    <tr>
+                                        <td>{{ $cabinet->name }}</td>
+                                        <td>{{ $cabinet->camera_address }}</td>
+                                        <td>
+
+                                            @if ( rand(0, 1) )
+                                                <i class="smile green large icon"></i>
+                                            @else
+                                                <i class="frown red large icon"></i>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </fieldset>
                 </div>
                 <div class="eight wide column">
                     <fieldset class="ui segment">
@@ -68,4 +71,161 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="fifteen wide column">
+        <fieldset class="ui segment">
+            <legend>Расписание</legend>
+            <form class="ui form">
+                @csrf
+                <div class="two fields">
+                    <div class="field">
+                        <select class="ui dropdown" id="group">
+                            @foreach ($groups as $group)
+                                <option value="{{ $group->id }}">{{ $group->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="field">
+                        <button type="button" id="showSchedule" class="ui fluid primary button">Показать расписание</button>
+                    </div>
+                </div>
+            </form>
+            <table id="scheduleTable" class="ui table">
+                <thead>
+                    <tr>
+                        <th>День</th>
+                        <th>Пара</th>
+                        <th>Кабинет</th>
+                        <th>Преподаватель</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr>
+                        <td rowspan="4">ПН</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Английский
+                        </td>
+                        <td>
+                            А-101
+                        </td>
+                        <td>
+                            Пупс
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Английский
+                        </td>
+                        <td>
+                            А-102
+                        </td>
+                        <td>
+                            Кукс
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Алгебра
+                        </td>
+                        <td>
+                            А-103
+                        </td>
+                        <td>
+                            Такс
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="4">ВТ</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Английский
+                        </td>
+                        <td>
+                            А-101
+                        </td>
+                        <td>
+                            Пупс
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Английский
+                        </td>
+                        <td>
+                            А-102
+                        </td>
+                        <td>
+                            Кукс
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Алгебра
+                        </td>
+                        <td>
+                            А-103
+                        </td>
+                        <td>
+                            Такс
+                        </td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</div>
+
+<script>
+
+    function getDayCaption(day)
+    {
+        switch (day)
+        {
+            case 1:
+                return "ПН";
+            break;
+            case 2:
+                return "ВТ";
+            break;
+            case 3:
+                return "СР";
+            break;
+            case 4:
+                return "ЧТ";
+            break;
+            case 5:
+                return "ПТ";
+            break;
+            case 6:
+                return "СБ";
+            break;
+            case 7:
+                return "ВС";
+            break;
+        }
+    }
+
+    $('#showSchedule').on('click', function () {
+        var group_id = $('#group').val();
+        var csrf = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            url: 'schedule/schedule_by_group/' + group_id,
+            type: 'GET',
+            success: function (data) {
+                $("#scheduleTable > tbody").html(data);
+                // alert(data[0]['id']);
+            },
+            error: function (errorString) {
+                alert(errorString.status);
+            }
+        })
+
+    });
+
+</script>
+
 @endsection

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CabinetsModel;
 use App\Models\GroupsModel;
 use App\Models\StudentsModel;
+use PHPUnit\Runner\Filter\GroupFilterIterator;
 
 class HomeController extends Controller
 {
@@ -29,6 +30,7 @@ class HomeController extends Controller
         return view('home', [
             'cabinets' => CabinetsModel::get(),
             'count_students' => StudentsModel::get()->count(),
+            'groups' => GroupsModel::get(),
         ]);
     }
 

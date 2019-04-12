@@ -20,10 +20,11 @@
     </head>
     <body>
         <div class="ui menu">
-            <a class="header item" href="{{ route('index') }}">Главная</a>
             @auth
                 <a class="item" href="{{ route('groups') }}">Группы</a>
                 <a class="item" href="{{ route('cabinets') }}">Аудитории</a>
+            @else
+                <a class="header item" href="{{ route('index') }}">Главная</a>
             @endauth
             <div class="right menu">
                 @guest
@@ -40,7 +41,7 @@
                             <a class="item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                                @lang('auth.logout')
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
@@ -50,7 +51,7 @@
                 @endguest
             </div>
         </div>
-        <div class="ui stackable center aligned grid">
+        <div class="ui stackable centered aligned grid">
             @yield('content')
         </div>
         <div class="ui bottom fixed secondary menu">
@@ -62,6 +63,7 @@
         <script>
         
             $('.ui.dropdown').dropdown();
+            $('.ui.accordion').accordion();
 
         </script>
     </body>
