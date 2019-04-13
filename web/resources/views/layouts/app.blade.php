@@ -22,7 +22,7 @@
         <script src="{{ asset('js/moment.js') }}"></script>
     </head>
     <body>
-        <div class="ui menu">
+        <div class="ui stackable menu">
             @auth
                 <a class="header item" href="{{ route('home') }}">Главная</a>
                 <a class="item" href="{{ route('schedule') }}">Расписание</a>

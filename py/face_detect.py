@@ -1,3 +1,6 @@
+import face_recognition
+import cv2
+
 class face_detect:
 
   
@@ -8,7 +11,7 @@ class face_detect:
      
   def fit(self):
     ndet_names = set()
-    known_faces_enc = list(self.faces.values())#Конверт из dicts_values в list
+    known_faces_enc = list(self.faces.values())#Convert from dicts_values to list
     known_faces_id = list(self.faces.keys())
     for frame in self.frames:
       face_locations = face_recognition.face_locations(frame, model="cnn")
@@ -19,7 +22,7 @@ class face_detect:
       for i in range(len(match)):
         if (match[i]):
           ndet_names.add(known_faces_id[i])
-    ndet_names = set(known_faces_id) - ndet_names#Вычитаем из множества всей группы отсутствующих. Это сделано для случая опоздания/погрешности
+    ndet_names = set(known_faces_id) - ndet_names#Subtract from the set of the entire group missing. Made for late arrival or inaccuracy
     for key in ndet_names:
       self.faces.pop(key)
         

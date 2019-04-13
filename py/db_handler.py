@@ -97,7 +97,7 @@ class db_handler:
     def __add_log_event(self, msg):
         self.__log.append(msg)
 
-    def __db_config(self, filename='../database.ini', section='postgresql'):
+    def __db_config(self, filename='./database.ini', section='db'):
         # create a parser
         parser = ConfigParser()
         # read config file
