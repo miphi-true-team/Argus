@@ -61,33 +61,37 @@ class ScheduleHandler:
         if not l:
             res = -1  # Think about it
         # Tested Worked!!!
-        self.n_lesson = res
+        self.__n_lesson = res
 
         day_of_week = current_datetime.weekday() + 1
 
         request = ("""SELECT * FROM %s WHERE day=%%s and para_num=%%s;""" % self.db.table_to_text(
-            db_tables.mephi_schedule) % (day_of_week, self.n_lesson))
+            db_tables.mephi_schedule) % (day_of_week, self.__n_lesson))
         req_result = self.db.exec_custom_request(request).fetchall()
-        self.shedule_dict = dict()
+        self.schedule_dict = dict()
         for value in req_result:
-            self.shedule_dict[value[3]] = value[4]
+            self.schedule_dict[value[3]] = value[4]
 
     # Public methods
 
+    def get_lesson_num(self):
+        return self.__n_lesson
+
     def get_group_by_cabinet(self, cabinet_num):
-        if cabinet_num in self.shedule_dict:
-            return self.shedule_dict[cabinet_num]
+        if cabinet_num in self.schedule_dict:
+            return self.schedule_dict[cabinet_num]
         else:
             return -1
+
 
 # Usage example
 db_handler1 = db_handler()
 cur_time = datetime.datetime(2019, 4, 15, 8, 49)
 test_object = ScheduleHandler(db_handler1, "../lesson_time.json", cur_time)
-t = test_object.get_group_by_cabinet(2)
+t = test_object.get_group_by_cabinet(1)
 print(t)
 # test_object = ScheduleHandler(db_handler1, "../lesson_time.json")
-#print("Start test")
+# print("Start test")
 
 # -1 - not in list or return 2007 year
 
