@@ -3,6 +3,38 @@
 @section('content')
 <div class="row">
     <div class="fifteen wide column">
+        <fieldset class="ui segment">
+            <legend>Состояние камер</legend>
+            <table class="ui table">
+                <thead>
+                    <tr>
+                        <th>Аудитория</th>
+                        <th>Камера</th>
+                        <th>Активна</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($cabinets as $cabinet)
+                        <tr>
+                            <td>{{ $cabinet->name }}</td>
+                            <td>{{ $cabinet->camera_address }}</td>
+                            <td>
+
+                                @if ( rand(0, 1) )
+                                    <i class="smile green large icon"></i>
+                                @else
+                                    <i class="frown red large icon"></i>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</div>
+<div class="row">
+    <div class="fifteen wide column">
         @if (count($cabinets) > 0)
             <div class="ui horizontal segments" style="flex-wrap: wrap;">
             @foreach ($cabinets as $cabinet)

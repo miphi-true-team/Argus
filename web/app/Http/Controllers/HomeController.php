@@ -34,6 +34,18 @@ class HomeController extends Controller
         ]);
     }
 
+    public function profile()
+    {
+        return view('employee/profile');
+    }
+
+    public function schedule()
+    {
+        return view('employee/schedule', [
+            'groups' => GroupsModel::get(),
+        ]);
+    }
+
     public function cabinets()
     {
         return view('employee/cabinets', [
