@@ -25,6 +25,7 @@
         <div class="ui stackable menu">
             @auth
                 <a class="header item" href="{{ route('home') }}">Главная</a>
+                <a class="item" href="{{ route('journal') }}">Журнал</a>
                 <a class="item" href="{{ route('schedule') }}">Расписание</a>
                 <a class="item" href="{{ route('groups') }}">Группы</a>
                 <a class="item" href="{{ route('cabinets') }}">Аудитории</a>

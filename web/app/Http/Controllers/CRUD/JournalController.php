@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\CRUD;
 
-use App\Models\ScheduleModel;
-use App\Models\CabinetsModel;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Models\JournalModel;
 use App\Models\GroupsModel;
 use App\Models\PairsModel;
+use App\Models\ScheduleModel;
+use App\Models\StudentsModel;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class ScheduleController extends Controller
+class JournalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -45,10 +46,10 @@ class ScheduleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ScheduleModel  $scheduleModel
+     * @param  \App\Models\JournalModel  $journalModel
      * @return \Illuminate\Http\Response
      */
-    public function show(ScheduleModel $scheduleModel)
+    public function show(JournalModel $journalModel)
     {
         //
     }
@@ -56,10 +57,10 @@ class ScheduleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ScheduleModel  $scheduleModel
+     * @param  \App\Models\JournalModel  $journalModel
      * @return \Illuminate\Http\Response
      */
-    public function edit(ScheduleModel $scheduleModel)
+    public function edit(JournalModel $journalModel)
     {
         //
     }
@@ -68,10 +69,10 @@ class ScheduleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ScheduleModel  $scheduleModel
+     * @param  \App\Models\JournalModel  $journalModel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ScheduleModel $scheduleModel)
+    public function update(Request $request, JournalModel $journalModel)
     {
         //
     }
@@ -79,28 +80,35 @@ class ScheduleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ScheduleModel  $scheduleModel
+     * @param  \App\Models\JournalModel  $journalModel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ScheduleModel $scheduleModel)
+    public function destroy(JournalModel $journalModel)
     {
         //
     }
 
-    public function getSchedule($group)
+    public function getJournalByDate($group, $date)
     {
-        $data = ScheduleModel::where('groups_id', $group)
-            ->orderBy('day', 'asc')
-            ->orderBy('para_num', 'asc')
-            ->get();
+        $journalRecords = JournalModel::where('date', $date)->get();
 
-        $pairsByDay = [];
-        foreach ($data as $row) {
-            $pairsByDay[PairsModel::where('id', $row['day'])->get()->first()->full_caption][] = $row;
-            $row['cabinet_id'] = CabinetsModel::where('id', $row['cabinet_id'])->get()->first()->name;
+        $students = [];
+
+        foreach ($journalRecords as $journalRecord) {
+            $students[$journalRecord['student_id']] = StudentsModel::where('id', $journalRecord['student_id'])->get()->first();
+
         }
+        
+        echo "Count pars: ". ScheduleModel::where('para_num',  $journalRecords[0]['para_num'])->get()->count();
 
-        return view('employee.schedule.table', ['pairsByDay' => $pairsByDay]);;
+echo "<pre>";
+        print_r($students);
+        echo "</pre>";
+exit;
+
+        return view('employee/journal/journal', [
+            'students' => $students
+        ]);
     }
 
 }

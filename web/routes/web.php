@@ -13,11 +13,17 @@
 Auth::routes();
 
 Route::get('/', 'MainController@index')->name('index');
-Route::get('/profile', 'HomeController@profile')->name('profile');
-Route::get('/home', 'HomeController@home')->name('home');
-Route::get('/schedules', 'HomeController@schedule')->name('schedule');
-Route::get('/cabinets', 'HomeController@cabinets')->name('cabinets');
-Route::get('/groups', 'HomeController@groups')->name('groups');
 
+Route::get('/profile',   'HomeController@profile')->name('profile');
+Route::get('/home',      'HomeController@home')->name('home');
+Route::get('/schedules', 'HomeController@schedule')->name('schedule');
+Route::get('/cabinets',  'HomeController@cabinets')->name('cabinets');
+Route::get('/groups',    'HomeController@groups')->name('groups');
+Route::get('/journals',   'HomeController@journal')->name('journal');
+
+/* Ajax routes */
 Route::get('schedule/schedule_by_group/{id}', 'CRUD\ScheduleController@getSchedule')->name('scheduleByGroup');
 Route::resource('/schedule', 'CRUD\ScheduleController');
+
+Route::get('journal/getJournalByDate/{group}/{date}', 'CRUD\JournalController@getJournalByDate')->name('getJournalByDate');
+Route::resource('/journal', 'CRUD\JournalController');
