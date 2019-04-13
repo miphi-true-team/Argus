@@ -3,6 +3,7 @@ import json
 from db_handler import db_tables
 from db_handler import db_handler
 
+
 # Structure of lesson in Schedule:
 # Day of week (we can make request by today, in future)
 # Parity bit :)
@@ -34,9 +35,9 @@ class ScheduleHandler:
     # Constructor Test
     def __init__(self, db_hand, path_json='../lesson_time.json', test_time=None):
         if test_time is None:
-            self.current_datetime = datetime.datetime.now()
+            current_datetime = datetime.datetime.now()
         else:
-            self.current_datetime = test_time
+            current_datetime = test_time
         self.db = db_hand
 
         # Load times of schedule
@@ -51,72 +52,57 @@ class ScheduleHandler:
         res = 0
         for value in classes:
             res = res + 1
-            if value["start_time"] <= self.current_datetime.time() <= value["end_time"]:
+            if value["start_time"] <= current_datetime.time() <= value["end_time"]:
                 l = True
                 break
-            elif self.current_datetime.time() < value["end_time"]:
+            elif current_datetime.time() < value["end_time"]:
                 res = -1
                 break
         if not l:
             res = -1
+        # Tested Worked!!!
         self.n_lesson = res
+        #print(self.n_lesson)
+        # self.__get_actual_schedule
 
-        if self.n_lesson == -1:
-            self.current_schedule = dict()
-        else:
-            #schedule_tmp = self.db.get_all_rows(db_tables.mephi_schedule).fetchall()
-            #print(schedule_tmp)
-            #Dosmth()!!!!
-            self.__get_actual_schedule
+        day_of_week = current_datetime.weekday()
+        day_of_week += 1
+        #print(day_of_week)
+
+        schedule_tmp = self.db.get_all_rows(db_tables.mephi_schedule).fetchall()
+        #print("Work1")
+        #print(schedule_tmp)
+        #print(type(schedule_tmp))
+        #print(type(schedule_tmp[0]))
+        request = ("""SELECT * FROM %s WHERE day=%%s and para_num=%%s;""" % self.db.table_to_text(
+            db_tables.mephi_schedule) % (day_of_week, self.n_lesson))
+        #print(request)
+        req_result = self.db.exec_custom_request(request).fetchall()
+        self.shedule_dict = dict()
+        for value in req_result:
+            self.shedule_dict[value[3]] = value[4]
+        #print(self.shedule_dict)
 
     # Public methods
 
     def get_group_by_cabinet(self, cabinet_num):
-        for itt in range(0, len(self.current_schedule)):
-            if cabinet_num == self.current_schedule[itt].cab_number:
-                return self.current_schedule[itt].group_number
-        return -1
-
-    #def current_time_to_current_lesson_num(self):
-    #    res = 0
-    #    for value in classes:
-    #        res = res + 1
-    #        if value["start_time"] <= self.current_datetime.time() <= value["end_time"]:
-    #            return res
-    #        elif self.current_datetime.time() < value["end_time"]:
-    #            return -1
-    #    return -1
-
-    # Private methods
-    def __get_actual_schedule(self):
-        schedule_tmp = self.db.get_all_rows(db_tables.mephi_schedule).fetchall()
-        day_of_week = datetime.datetime.now().weekday()
-        print(day_of_week)
-        print(schedule_tmp)
-        request = self.db.exec_custom_request("""SELECT * FROM %s WHERE id=%%s;""" % self.db.table_to_text(db_tables.mephi_schedule), [id])
-        print(request)
-        return 0
-        # Form actual lessons
+        if cabinet_num in self.shedule_dict:
+            return self.shedule_dict[cabinet_num]
+        else:
+            return -1
 
 
 # using example
 # sorry
 
+# Usage example
 db_handler1 = db_handler()
-cur_time = datetime.time(14, 49)
-test_object = ScheduleHandler(db_handler1, "../lesson_time.json")
-
-print("Start test")
-
-#print(test_object.current_time_to_current_lesson_num())
-#print(test_object.time_to_lesson_num(cur_time))
-
-# print(test_object.datastore)
-
-# for i in range(0, len(self.date_list)):
-#    print(str.format("{0} - {1} Пара №{2}", self.date_list[i][0].__str__(), date_list[i][1].__str__(), i + 1))
-#    if self.date_list[i][0] <= cur_time <= self.date_list[i][1]:
-#        print("Актуальная")
+cur_time = datetime.datetime(2019, 4, 15, 8, 49)
+test_object = ScheduleHandler(db_handler1, "../lesson_time.json", cur_time)
+t = test_object.get_group_by_cabinet(2)
+print(t)
+# test_object = ScheduleHandler(db_handler1, "../lesson_time.json")
+#print("Start test")
 
 # -1 - not in list or return 2007 year
 
