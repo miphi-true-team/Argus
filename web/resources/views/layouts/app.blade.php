@@ -21,7 +21,7 @@
         <script src="{{ asset('css/semantic/semantic.js') }}"></script>
     </head>
     <body>
-        <div class="ui menu">
+        <div class="ui stackable menu">
             @auth
                 <a class="item" href="{{ route('groups') }}">Группы</a>
                 <a class="item" href="{{ route('cabinets') }}">Аудитории</a>
