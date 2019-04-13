@@ -1,9 +1,11 @@
 
 from db_handler import db_handler
 from db_handler import db_tables
+from camera_handler import camera_handler
 import multiprocessing
 import concurrent.futures
 import time
+import cv2#temp?
 
 
 def __check_students(cabinets_lits):
@@ -18,8 +20,25 @@ def __check_students(cabinets_lits):
 if __name__ == '__main__':
     
   handler = db_handler()
-#tests 
-  #entity = [31, 20, '2006-01-01', 3]
+  cam_handler = camera_handler("http://89.208.213.182:100/")
+  count = 0
+  while(1):
+    time.sleep(2)
+    frames = cam_handler.get_frames(5, 1)
+    for frame in frames:
+      print("O")
+      # Our operations on the frame come here
+      #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+      ##cv2.imwrite("frame%d.jpg" % count, frame)     # save frame as JPEG file
+      #count +=1
+      #cv2.imshow('IP Camera stream',frame)
+
+    #cv2.destroyAllWindows()
+
+
+  #rtsp://89.208.213.182:100/
+#tests rtsp://10.201.12.94:8554/
+  #entity = [31, 20, '2006-01-01', 3] #rtsp://root:pass@192.168.0.91:554/
   #handler.insert_row(db_tables.mephi_journal, entity)
   #print(handler.get_row_by_id(db_tables.mephi_journal, 4))
  # cab = [['A-101', '213.24.32.15'], ['A-102', '213.24.32.16']]
