@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CabinetsModel;
 use App\Models\GroupsModel;
 use App\Models\StudentsModel;
+use App\Models\PairsModel;
 use PHPUnit\Runner\Filter\GroupFilterIterator;
 
 class HomeController extends Controller
@@ -57,6 +58,14 @@ class HomeController extends Controller
     {
         return view('employee/groups', [
             'groups' => GroupsModel::get()
+        ]);
+    }
+    
+    public function journal()
+    {
+        return view('employee/journal', [
+            'groups' => GroupsModel::get(),
+            'pairs' => PairsModel::get()
         ]);
     }
 

@@ -40,7 +40,6 @@
 
         $('#showSchedule').on('click', function () {
             var group_id = $('#group').val();
-            var csrf = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
                 url: 'schedule/schedule_by_group/' + group_id,
