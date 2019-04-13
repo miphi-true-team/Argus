@@ -13,16 +13,19 @@
 
         <!-- jQuery -->
         <script src="{{ asset('js/jquery.js') }}" ></script>
-        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
-        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <script src="{{ asset('js/jquery.canvasjs.js') }}"></script>
+        <script src="{{ asset('js/jquery-ui.js') }}"></script>
 
         <!-- Semantic UI -->
         <link href="{{ asset('css/semantic/semantic.css') }}" rel="stylesheet">
         <script src="{{ asset('css/semantic/semantic.js') }}"></script>
+        <script src="{{ asset('js/moment.js') }}"></script>
     </head>
     <body>
-        <div class="ui menu">
+        <div class="ui stackable menu">
             @auth
+                <a class="header item" href="{{ route('home') }}">Главная</a>
+                <a class="item" href="{{ route('schedule') }}">Расписание</a>
                 <a class="item" href="{{ route('groups') }}">Группы</a>
                 <a class="item" href="{{ route('cabinets') }}">Аудитории</a>
             @else
@@ -30,16 +33,17 @@
             @endauth
             <div class="right menu">
                 @guest
-                    <a href="{{ route('login') }}" class="item">@lang('auth.login')</a> 
+                    <a href="{{ route('login') }}" class="item">@lang('auth.login')</a>
 			        @if (Route::has('register'))
                         <a href="{{ route('register') }}" class="item">@lang('auth.registration')</a>
                     @endif
                 @else
+                    <div class="item"><i class="clock icon"></i><span id="datetime"></span></div>
                     <div class="ui dropdown item">
                         {{ Auth::user()->name }}
                         <i class="dropdown icon"></i>
                         <div class="menu">
-                            <a href="{{ route('home') }}" class="item">Профиль</a>
+                            <a href="{{ route('profile') }}" class="item">Профиль</a>
                             <a class="item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
@@ -62,10 +66,24 @@
             </div>
         </div>
 
-        <script>
+        <script type="text/javascript">
         
             $('.ui.dropdown').dropdown();
             $('.ui.accordion').accordion();
+
+            var datetime = null,
+            date = null;
+
+            var update = function () {
+                date = moment(new Date())
+                datetime.html(date.format('DD.MM.YYYY H:mm:ss'));
+            };
+
+            $(document).ready(function(){
+                datetime = $('#datetime')
+                update();
+                setInterval(update, 1000);
+            });
 
         </script>
     </body>
