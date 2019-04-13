@@ -2,7 +2,7 @@ import datetime
 from db_handler import db_tables
 from db_handler import db_handler
 
-#
+# smth for commit
 date_list = [
     [datetime.time(8, 30), datetime.time(10, 5)],
     [datetime.time(10, 15), datetime.time(11, 50)],
