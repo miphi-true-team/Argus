@@ -56,32 +56,21 @@ class ScheduleHandler:
                 l = True
                 break
             elif current_datetime.time() < value["end_time"]:
-                res = -1
+                res = -1  # Think about it
                 break
         if not l:
-            res = -1
+            res = -1  # Think about it
         # Tested Worked!!!
         self.n_lesson = res
-        #print(self.n_lesson)
-        # self.__get_actual_schedule
 
-        day_of_week = current_datetime.weekday()
-        day_of_week += 1
-        #print(day_of_week)
+        day_of_week = current_datetime.weekday() + 1
 
-        schedule_tmp = self.db.get_all_rows(db_tables.mephi_schedule).fetchall()
-        #print("Work1")
-        #print(schedule_tmp)
-        #print(type(schedule_tmp))
-        #print(type(schedule_tmp[0]))
         request = ("""SELECT * FROM %s WHERE day=%%s and para_num=%%s;""" % self.db.table_to_text(
             db_tables.mephi_schedule) % (day_of_week, self.n_lesson))
-        #print(request)
         req_result = self.db.exec_custom_request(request).fetchall()
         self.shedule_dict = dict()
         for value in req_result:
             self.shedule_dict[value[3]] = value[4]
-        #print(self.shedule_dict)
 
     # Public methods
 
@@ -90,10 +79,6 @@ class ScheduleHandler:
             return self.shedule_dict[cabinet_num]
         else:
             return -1
-
-
-# using example
-# sorry
 
 # Usage example
 db_handler1 = db_handler()
