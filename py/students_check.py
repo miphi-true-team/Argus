@@ -2,6 +2,7 @@
 from db_handler import db_handler
 from db_handler import db_tables
 from camera_handler import camera_handler
+from face_detect import face_detect
 import multiprocessing
 import concurrent.futures
 import time
@@ -22,11 +23,26 @@ if __name__ == '__main__':
   handler = db_handler()
   cam_handler = camera_handler("http://89.208.213.182:100/")
   count = 0
-  while(1):
+
+  all_students = handler.get_all_rows(db_tables.faces_journal).fetchall() #face_id student_id enc picture
+  faces_dict = dict()
+  #print(students)
+  for student in all_students:
+    if(student[1] not in faces_dict.keys()):
+        faces_dict[student[1]] = list()
+    faces_dict[student[1]].append(student[2])
+  
+  while(count < 2):
     time.sleep(2)
-    frames = cam_handler.get_frames(5, 1)
+    frames = cam_handler.get_frames(3, 1)
+
+    count += 1
     for frame in frames:
       print("O")
+
+    face_detecter = face_detect(faces_dict, frames)
+    fitted = face_detecter.fit()
+    print(fitted)
       # Our operations on the frame come here
       #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
       ##cv2.imwrite("frame%d.jpg" % count, frame)     # save frame as JPEG file

@@ -11,6 +11,11 @@ class camera_handler:
         for i in range(0, num):
             ret, frame = self.cam.read()
             print("i = ", i, "ret = ", ret)
+
+            if not ret:
+                self.cam.release()
+                raise Exception("Cannot get frame")
+
             frames_list.append(frame)
 
             #cv2.imshow('IP Camera stream',frame)
