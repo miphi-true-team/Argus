@@ -90,13 +90,15 @@ class JournalController extends Controller
 
     public function getJournalByDate($group, $date)
     {
+
+        
         $day = date('w', strtotime($date));
         $journalRecords = JournalModel::where('date', $date)->get();
         $countOfPairs = ScheduleModel::where([
             ['day', '=', $day],
             ['groups_id', '=', $group]
-        ])->get()->count();
-        
+            ])->get()->count();
+
         $students = [];
 
         foreach ($journalRecords as $journalRecord) {
@@ -114,7 +116,10 @@ class JournalController extends Controller
                     'pt' => $student->pt
                 ];
                 
-                $pairs = JournalModel::select('para_num')->where('student_id', $journalRecord['student_id'])->get();
+                $pairs = JournalModel::select('para_num')->where([
+                    ['student_id', '=', $journalRecord['student_id']],
+                    ['date', '=', $date],
+                ])->get();
     
                 if (!empty($pairs)) {
                     foreach ($pairs as $pair) {
