@@ -90,21 +90,44 @@ class JournalController extends Controller
 
     public function getJournalByDate($group, $date)
     {
+        $day = date('w', strtotime($date));
         $journalRecords = JournalModel::where('date', $date)->get();
-
+        
         $students = [];
 
         foreach ($journalRecords as $journalRecord) {
-            $students[$journalRecord['student_id']] = StudentsModel::where('id', $journalRecord['student_id'])->get()->first();
+            
+            $student = StudentsModel::where([
+                ['id', '=', $journalRecord['student_id']],
+                ['group_id', '=', $group],
+            ])->get()->first();
+            
+            if (!empty($student)) {
+                $students[$journalRecord['student_id']] = [
+                    'sn' => $student->sn,
+                    'fn' => $student->fn,
+                    'pt' => $student->pt
+                ];
+                $pairs = JournalModel::select('para_num')->where('student_id', $journalRecord['student_id'])->get();
+    
+                foreach ($pairs as $pair) {
+                    $subject = ScheduleModel::where([
+                        ['day', '=', $day],
+                        ['para_num', '=', $pair->para_num]
+                    ])->get()->first();
+
+                    if (!empty($subject)) {
+                        $students[$journalRecord['student_id']]['pairs'][] = $subject->predmet;
+                    }
+                }
+            }
 
         }
-        
-        echo "Count pars: ". ScheduleModel::where('para_num',  $journalRecords[0]['para_num'])->get()->count();
 
-echo "<pre>";
-        print_r($students);
-        echo "</pre>";
-exit;
+        // echo "<pre>";
+        //     print_r($students);
+        //     echo "</pre>";
+        // exit;
 
         return view('employee/journal/journal', [
             'students' => $students
