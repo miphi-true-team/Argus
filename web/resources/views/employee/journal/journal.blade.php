@@ -13,10 +13,11 @@
                     @endforeach
                 </div>
             </td>
+            <td>{{ number_format($student['precent'])."%" }}</td>
         </tr>
     @endforeach
 @else
-<tr>
-    <td><h1>Записи не найдены</h1></td>
-</tr>
+    <tr>
+        <td><h1>Записи не найдены</h1></td>
+    </tr>
 @endif

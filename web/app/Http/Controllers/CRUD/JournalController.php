@@ -92,6 +92,10 @@ class JournalController extends Controller
     {
         $day = date('w', strtotime($date));
         $journalRecords = JournalModel::where('date', $date)->get();
+        $countOfPairs = ScheduleModel::where([
+            ['day', '=', $day],
+            ['groups_id', '=', $group]
+        ])->get()->count();
         
         $students = [];
 
@@ -103,6 +107,7 @@ class JournalController extends Controller
             ])->get()->first();
             
             if (!empty($student)) {
+                $count_of_admission = 0;
                 $students[$journalRecord['student_id']] = [
                     'sn' => $student->sn,
                     'fn' => $student->fn,
@@ -117,17 +122,16 @@ class JournalController extends Controller
                     ])->get()->first();
 
                     if (!empty($subject)) {
-                        $students[$journalRecord['student_id']]['pairs'][] = $subject->predmet;
+                        $students[$journalRecord['student_id']]['pairs'][] = "[".$pair->para_num."] ".$subject->predmet;
+                        $count_of_admission++;
                     }
+                    
                 }
+
+                $students[$journalRecord['student_id']]['precent'] = ($count_of_admission * 100)/$countOfPairs;
             }
 
         }
-
-        // echo "<pre>";
-        //     print_r($students);
-        //     echo "</pre>";
-        // exit;
 
         return view('employee/journal/journal', [
             'students' => $students
