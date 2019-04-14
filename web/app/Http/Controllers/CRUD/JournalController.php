@@ -90,21 +90,61 @@ class JournalController extends Controller
 
     public function getJournalByDate($group, $date)
     {
+
+        
+        $day = date('w', strtotime($date));
         $journalRecords = JournalModel::where('date', $date)->get();
+        $countOfPairs = ScheduleModel::where([
+            ['day', '=', $day],
+            ['groups_id', '=', $group]
+            ])->get()->count();
 
         $students = [];
 
         foreach ($journalRecords as $journalRecord) {
-            $students[$journalRecord['student_id']] = StudentsModel::where('id', $journalRecord['student_id'])->get()->first();
+            
+            $student = StudentsModel::where([
+                ['id', '=', $journalRecord['student_id']],
+                ['group_id', '=', $group],
+            ])->get()->first();
+            
+            if (!empty($student)) {
+                $count_of_admission = 0;
+                $students[$journalRecord['student_id']] = [
+                    'sn' => $student->sn,
+                    'fn' => $student->fn,
+                    'pt' => $student->pt
+                ];
+                
+                $pairs = JournalModel::select('para_num')->where([
+                    ['student_id', '=', $journalRecord['student_id']],
+                    ['date', '=', $date],
+                ])->get();
+    
+                if (!empty($pairs)) {
+                    foreach ($pairs as $pair) {
+                        $subject = ScheduleModel::where([
+                            ['day', '=', $day],
+                            ['para_num', '=', $pair->para_num]
+                        ])->get()->first();
+    
+                        if (!empty($subject)) {
+                            $students[$journalRecord['student_id']]['pairs'][] = "[".$pair->para_num."] ".$subject->predmet;
+                            $count_of_admission++;
+                        }
+                        
+                    }
+    
+                    if ($countOfPairs > 0) {
+                        $students[$journalRecord['student_id']]['precent'] = ($count_of_admission * 100)/$countOfPairs;
+                    } else {
+                        $students[$journalRecord['student_id']]['precent'] = ($count_of_admission * 100)/1;
+                    }
+                }
+
+            }
 
         }
-        
-        echo "Count pars: ". ScheduleModel::where('para_num',  $journalRecords[0]['para_num'])->get()->count();
-
-echo "<pre>";
-        print_r($students);
-        echo "</pre>";
-exit;
 
         return view('employee/journal/journal', [
             'students' => $students

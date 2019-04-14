@@ -4,6 +4,7 @@
     </tr>
     @foreach ($pairs as $pair)
     <tr>
+            <td>{{ $pair->para_num }}</td>
             <td>{{ $pair->predmet }}</td>
             <td>{{ $pair->cabinet_id }}</td>
             <td>{{ $pair->prepod }}</td>

@@ -36,77 +36,10 @@
                             <th>№</th>
                             <th>ФИО</th>
                             <th>Посещённые пары</th>
+                            <th>Процент посещаемости</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- <tr>
-                            <td>1</td>
-                            <td>Вася пупкин</td>
-                            <td>
-                                <div class="ui tag labels">
-                                    <a class="ui label">
-                                        Английский
-                                    </a>
-                                    <a class="ui label">
-                                        Алгебра и геометрия
-                                    </a>
-                                    <a class="ui label">
-                                        История
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Вася пупкин</td>
-                            <td>
-                                <div class="ui tag labels">
-                                    <a class="ui label">
-                                        Английский
-                                    </a>
-                                    <a class="ui label">
-                                        Алгебра и геометрия
-                                    </a>
-                                    <a class="ui label">
-                                        История
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Вася пупкин</td>
-                            <td>
-                                <div class="ui tag labels">
-                                    <a class="ui label">
-                                        Английский
-                                    </a>
-                                    <a class="ui label">
-                                        Алгебра и геометрия
-                                    </a>
-                                    <a class="ui label">
-                                        История
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Вася пупкин</td>
-                            <td>
-                                <div class="ui tag labels">
-                                    <a class="ui label">
-                                        Английский
-                                    </a>
-                                    <a class="ui label">
-                                        Алгебра и геометрия
-                                    </a>
-                                    <a class="ui label">
-                                        История
-                                    </a>
-                                </div>
-                            </td>
-                        </tr> -->
                     </tbody>
                 </table>
             </fieldset>
@@ -114,7 +47,6 @@
     </div>
 
     <script type="text/javascript">
-
 
         $('#applyFilter').on('click', function () {
             var group = $('#group').val();
@@ -125,11 +57,9 @@
                 type: 'GET',
                 success: function (data) {
                     $('#journalTable > tbody').html(data);
-                    // alert(data);
                 },
                 error: function (error) {
                     alert(error.status);
-                    
                 }
             });
 

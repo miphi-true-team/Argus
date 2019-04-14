@@ -19,7 +19,6 @@
                             <td>{{ $cabinet->name }}</td>
                             <td>{{ $cabinet->camera_address }}</td>
                             <td>
-
                                 @if ( rand(0, 1) )
                                     <i class="smile green large icon"></i>
                                 @else
@@ -43,7 +42,7 @@
                     <p>IP камеры: {{ $cabinet->camera_address }}</p>
                     <fieldset class="ui loading segment">
                         <legend class="black-text">Видео</legend>
-                        <div style="width: 500px; height: 500px;"></div>
+                        <div style="width: 100%; height: 500px;"></div>
                     </fieldset>
                 </div>
             @endforeach
