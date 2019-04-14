@@ -15,17 +15,11 @@ class face_detect:
       face_encodings = face_recognition.face_encodings(frame, face_locations)
       for keys, values in self.faces.items():
         for known_enc in face_encodings:
-          print(len(values))
-          print(type(values))
           match_list = face_recognition.compare_faces(values, known_enc, tolerance = 0.50)#change values ->
           
-          print(type(match_list))
-          print(match_list)
           for res in match_list:
-            if res:
+            if res and keys not in recognized_id:
               recognized_id.append(keys)
               break
-          #if (any(match_list)):
-            #recognized_id.append(keys)
         
     return recognized_id

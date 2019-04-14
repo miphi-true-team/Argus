@@ -17,8 +17,6 @@ class camera_handler:
                 raise Exception("Cannot get frame")
 
             frames_list.append(frame)
-
-            #cv2.imshow('IP Camera stream',frame)
             time.sleep(delay)
 
         return frames_list
@@ -34,6 +32,8 @@ class camera_handler:
     def __init_cam(self, addr):
         self.cam = cv2.VideoCapture(addr)
 
+        #self.cam.set(3,640)
+        #self.cam.set(4,480)
         if not self.cam.isOpened():
             raise Exception("Cannot connect to the camera")
         

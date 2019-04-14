@@ -50,6 +50,7 @@ class ScheduleHandler:
 
         # Get N_Lesson
         res = 0
+        l = False
         for value in classes:
             res = res + 1
             if value["start_time"] <= current_datetime.time() <= value["end_time"]:
@@ -62,6 +63,8 @@ class ScheduleHandler:
             res = -1  # Think about it
         # Tested Worked!!!
         self.__n_lesson = res
+
+        print("sch hand init res = ", res)
 
         day_of_week = current_datetime.weekday() + 1
 
@@ -85,11 +88,11 @@ class ScheduleHandler:
 
 
 # Usage example
-db_handler1 = db_handler()
-cur_time = datetime.datetime(2019, 4, 15, 8, 49)
-test_object = ScheduleHandler(db_handler1, "../lesson_time.json", cur_time)
-t = test_object.get_group_by_cabinet(1)
-print(t)
+#db_handler1 = db_handler()
+#cur_time = datetime.datetime(2019, 4, 15, 8, 49)
+#test_object = ScheduleHandler(db_handler1, "../lesson_time.json", cur_time)
+#t = test_object.get_group_by_cabinet(1)
+#print(t)
 # test_object = ScheduleHandler(db_handler1, "../lesson_time.json")
 # print("Start test")
 
