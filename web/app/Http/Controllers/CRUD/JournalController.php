@@ -113,26 +113,30 @@ class JournalController extends Controller
                     'fn' => $student->fn,
                     'pt' => $student->pt
                 ];
+                
                 $pairs = JournalModel::select('para_num')->where('student_id', $journalRecord['student_id'])->get();
     
-                foreach ($pairs as $pair) {
-                    $subject = ScheduleModel::where([
-                        ['day', '=', $day],
-                        ['para_num', '=', $pair->para_num]
-                    ])->get()->first();
-
-                    if (!empty($subject)) {
-                        $students[$journalRecord['student_id']]['pairs'][] = "[".$pair->para_num."] ".$subject->predmet;
-                        $count_of_admission++;
+                if (!empty($pairs)) {
+                    foreach ($pairs as $pair) {
+                        $subject = ScheduleModel::where([
+                            ['day', '=', $day],
+                            ['para_num', '=', $pair->para_num]
+                        ])->get()->first();
+    
+                        if (!empty($subject)) {
+                            $students[$journalRecord['student_id']]['pairs'][] = "[".$pair->para_num."] ".$subject->predmet;
+                            $count_of_admission++;
+                        }
+                        
                     }
-                    
+    
+                    if ($countOfPairs > 0) {
+                        $students[$journalRecord['student_id']]['precent'] = ($count_of_admission * 100)/$countOfPairs;
+                    } else {
+                        $students[$journalRecord['student_id']]['precent'] = ($count_of_admission * 100)/1;
+                    }
                 }
 
-                if ($countOfPairs > 0) {
-                    $students[$journalRecord['student_id']]['precent'] = ($count_of_admission * 100)/$countOfPairs;
-                } else {
-                    $students[$journalRecord['student_id']]['precent'] = ($count_of_admission * 100)/1;
-                }
             }
 
         }

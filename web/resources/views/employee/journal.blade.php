@@ -48,7 +48,6 @@
 
     <script type="text/javascript">
 
-
         $('#applyFilter').on('click', function () {
             var group = $('#group').val();
             var date = $('#date').val();
@@ -58,11 +57,9 @@
                 type: 'GET',
                 success: function (data) {
                     $('#journalTable > tbody').html(data);
-                    // alert(data);
                 },
                 error: function (error) {
                     alert(error.status);
-                    
                 }
             });
 

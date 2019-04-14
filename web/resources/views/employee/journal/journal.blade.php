@@ -6,11 +6,13 @@
             <td>{{ $student['sn']." ".$student['fn']." ".$student['pt'] }}</td>
             <td>
                 <div class="ui tag labels">
-                    @foreach ($student['pairs'] as $subject)
-                        <a class="ui label">
-                        {{ $subject }}
-                        </a>
-                    @endforeach
+                    @if (!empty($student['pairs']))
+                        @foreach ($student['pairs'] as $subject)
+                            <a class="ui label">
+                            {{ $subject }}
+                            </a>
+                        @endforeach
+                    @endif
                 </div>
             </td>
             <td>{{ number_format($student['precent'])."%" }}</td>
