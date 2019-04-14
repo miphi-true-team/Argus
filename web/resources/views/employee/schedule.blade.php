@@ -4,7 +4,7 @@
     <div class="row">
         <div class="fifteen wide column">
             <fieldset class="ui segment">
-                <legend>Расписание</legend>
+                <legend><h3>Расписание</h3></legend>
                 <form class="ui form">
                     @csrf
                     <div class="two fields">
