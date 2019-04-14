@@ -7,7 +7,7 @@ use App\Models\StudentsModel;
 
 class GroupsModel extends Model
 {
-	protected $table      = 'Groups';
+	protected $table      = 'groups';
 	protected $primaryKey = 'id';
     public $timestamps    = false;
     
