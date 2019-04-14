@@ -128,7 +128,11 @@ class JournalController extends Controller
                     
                 }
 
-                $students[$journalRecord['student_id']]['precent'] = ($count_of_admission * 100)/$countOfPairs;
+                if ($countOfPairs > 0) {
+                    $students[$journalRecord['student_id']]['precent'] = ($count_of_admission * 100)/$countOfPairs;
+                } else {
+                    $students[$journalRecord['student_id']]['precent'] = ($count_of_admission * 100)/1;
+                }
             }
 
         }
