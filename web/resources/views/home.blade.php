@@ -38,16 +38,17 @@
                 <div id="chartContainer1" style="height: 370px; width: 100%;"></div>
             </fieldset>
             <fieldset class="ui segment">
-                <legend><h3>Посещаемость по дням</h3></legend>
+                <legend><h3>Посещаемость пар (по дням)</h3></legend>
                 <form class="ui form">
                     <div class="field">
                         <select name="" id="selectStudent" multiple="" class="ui dropdown">
                             @foreach ($studentsByGroup as $group => $students)
-                                <optgroup label="{{ $group }}">
+                                <option label="">
+                                {{ $group }}
+                                </option>
                                     @foreach ($students as $student)
                                         <option value="{{ $student->id }}">{{ $student->sn }}</option>
                                     @endforeach
-                                </optgroup>
                             @endforeach
                         </select>
                     </div>
