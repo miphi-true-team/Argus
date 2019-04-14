@@ -39,6 +39,19 @@
             </fieldset>
             <fieldset class="ui segment">
                 <legend><h3>Посещаемость по дням</h3></legend>
+                <form class="ui form">
+                    <div class="field">
+                        <select name="" id="selectStudent" multiple="" class="ui dropdown">
+                            @foreach ($studentsByGroup as $group => $students)
+                                <optgroup label="{{ $group }}">
+                                    @foreach ($students as $student)
+                                        <option value="{{ $student->id }}">{{ $student->sn }}</option>
+                                    @endforeach
+                                </optgroup>
+                            @endforeach
+                        </select>
+                    </div>
+                </form>
                 <div id="resizable" style="height: 370px">
                     <div id="chartContainer2" style="height: 100%; width: 100%;"></div>
                 </div>
@@ -68,32 +81,42 @@
 
             $("#chartContainer1").CanvasJSChart(statOption1);
 
+        }
 
-            var statOption2 = {
-                data: [{
-                    type: "column", //change it to line, area, bar, pie, etc
-                    dataPoints: [
-                        { label: "Понедельник", y: 10 },
-                        { label: "Вторник",     y: 6 },
-                        { label: "Среда",       y: 14 },
-                        { label: "Четверг",     y: 12 },
-                        { label: "Пятница",     y: 19 },
-                        { label: "Суббота",     y: 14 },
-                        { label: "Воскресенье", y: 26 }
-                        ]
-                    }]
-            };
-
-            $("#resizable").resizable({
-                create: function (event, ui) {
+        
+        $('#selectStudent').on('change', function () {
+            var students = $(this).val();
+            
+            $.ajax({
+                url: "journal/getStatisticByStudent/" + students,
+                type: 'GET',
+                success: function (data) {
+                    
+                    var statOption2 = {
+                        data: [{
+                            type: "column",
+                            dataPoints: JSON.parse(data)
+                        }]
+                    };
+                    
                     $("#chartContainer2").CanvasJSChart(statOption2);
+                    // $("#resizable").resizable({
+                    //     create: function (event, ui) {
+                    //         $("#chartContainer2").CanvasJSChart(statOption2);
+                    //     },
+                    //     resize: function (event, ui) {
+                    //         $("#chartContainer2").CanvasJSChart().render();
+                    //     }
+                    // });
+
                 },
-                resize: function (event, ui) {
-                    $("#chartContainer2").CanvasJSChart().render();
+                error: function (error) {
+                    alert(error.status);
                 }
             });
+            
 
-        }
+        });
 
     </script>
 @endsection

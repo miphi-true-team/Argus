@@ -151,4 +151,33 @@ class JournalController extends Controller
         ]);
     }
 
+    public function getStatisticByStudent($students)
+    {
+        $stds = explode(',', $students);
+        $whereOptions = [];
+
+        foreach ($stds as $std) {
+            $whereOptions[] = [
+                'student_id', '=', (int)$std
+            ];
+        }
+        
+        $data = \DB::table('mephi_journal')
+            ->select(\DB::raw('count(date), date'))
+            ->whereIn('student_id', $stds)
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+        
+        $json = [];
+        foreach ($data as $value) {
+            $json[] = [
+                'label' => $value->date,
+                'y' => (int)$value->count,
+            ];
+        }
+
+        return json_encode($json);
+    }
+
 }

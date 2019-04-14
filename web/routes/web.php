@@ -26,4 +26,6 @@ Route::get('schedule/schedule_by_group/{id}', 'CRUD\ScheduleController@getSchedu
 Route::resource('/schedule', 'CRUD\ScheduleController');
 
 Route::get('journal/getJournalByDate/{group}/{date}', 'CRUD\JournalController@getJournalByDate')->name('getJournalByDate');
+Route::get('journal/getStatisticByStudent/{students}', 'CRUD\JournalController@getStatisticByStudent')->name('getStatisticByStudent');
+
 Route::resource('/journal', 'CRUD\JournalController');
